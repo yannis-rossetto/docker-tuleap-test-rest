@@ -31,4 +31,6 @@ ADD run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
 
 VOLUME ["/tuleap"]
-VOLUME ["/output"]
+
+# We can use volumes when cp from volumes will be supported
+#VOLUME ["/output"]
