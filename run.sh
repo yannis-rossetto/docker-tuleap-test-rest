@@ -29,12 +29,6 @@ do
     esac
 done
 
-if [ "$init" == 1 -a "$run" == 1 ]; then
-    service httpd start
-    make -C /tuleap TULEAP_LOCAL_INC=/etc/integration_tests.inc OUTPUT_DIR=/output BUILD_ENV=ci ci_api_test
-    exit 0
-fi
-
 if [ "$init" == 1 ]; then
     make -C /tuleap TULEAP_LOCAL_INC=/etc/integration_tests.inc OUTPUT_DIR=/output BUILD_ENV=ci ci_api_test_setup api_test_bootstrap
 fi
