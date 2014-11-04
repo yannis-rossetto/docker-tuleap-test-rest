@@ -1,33 +1,35 @@
 ## Re-use tuleap base for caching ##
-FROM enalean/docker-tuleap-base:1.0
+FROM centos:centos6
 
 MAINTAINER Manuel Vacelet, manuel.vacelet@enalean.com
 
-RUN yum -y install php && yum clean all
-RUN yum -y install php-soap && yum clean all
-RUN yum -y install php-mysql && yum clean all
-RUN yum -y install php-gd && yum clean all
-RUN yum -y install php-process && yum clean all
-RUN yum -y install php-xml && yum clean all
-RUN yum -y install php-pecl-xdebug  && yum clean all
-RUN yum -y install php-mbstring && yum clean all
-RUN yum -y install mysql-server && yum clean all
-RUN yum -y install httpd && yum clean all
+COPY Tuleap.repo /etc/yum.repos.d/
 
-ADD Tuleap.repo /etc/yum.repos.d/
-RUN yum -y install php-password-compat && yum clean all
-RUN yum -y install php-zendframework && yum clean all
-RUN yum -y install htmlpurifier && yum clean all
-RUN yum -y install jpgraph-tuleap && yum clean all
-RUN yum -y install php-restler
+RUN rpm -i http://mir01.syntis.net/epel/6/i386/epel-release-6-8.noarch.rpm && \
+    yum -y install php \
+    php-soap \
+    php-mysql \
+    php-gd \
+    php-process \
+    php-xml \
+    php-pecl-xdebug  \
+    php-mbstring \
+    mysql-server \
+    httpd \
+    php-password-compat \
+    php-zendframework \
+    htmlpurifier \
+    jpgraph-tuleap \
+    php-restler && \
+    yum clean all
 
 RUN service mysqld start && sleep 1 && mysql -e "GRANT ALL PRIVILEGES on *.* to 'integration_test'@'localhost' identified by 'welcome0'"
 
 RUN curl -k -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin
 
-ADD rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
+COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
 
-ADD composer.json /tmp/run/composer.json
+COPY composer.json /tmp/run/composer.json
 RUN cd /tmp/run && php /usr/local/bin/composer.phar install
 
 ADD run.sh /run.sh
