@@ -27,3 +27,24 @@ Continuous integration usage
 For jenkins builds:
 
     $> docker run --rm=true -v $WORKSPACE/tuleap:/tuleap -v $WORKSPACE:/output enalean/tuleap-test-rest
+    
+Debugging failed tests
+======================
+
+While the tests are running, ina separate console run
+
+    $> docker ps
+    $> docker commit [id of process] some_name
+    
+Then, once the tests have finished running
+
+    $> docker run -ti -p 80:80 -v $PWD:/tuleap --entrypoint=/bin/bash toto
+
+This will take you to the terminal. You can then debug internally, if you wish
+
+    $> sh run.sh [tests/rest/ProjectTest.php] //runs the test- needs to be done to restart mysql, httpd, ...
+    $> mysql //check the db
+    $> curl 'http://localhost:8089/api/v1/projects' //use the API
+    $> ifconfig //get the IP of the container
+    
+You can even debug via the UI by going to http://IP_OF_CONTAINER:8089 and clicking on login
