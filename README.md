@@ -31,7 +31,7 @@ For jenkins builds:
 Debugging failed tests
 ======================
 
-While the tests are running, ina separate console run
+While the tests are running, in a separate console run
 
     $> docker ps
     $> docker commit [id of process] some_name (e.g. toto)
@@ -47,4 +47,4 @@ This will take you to the terminal. You can then debug internally, if you wish
     $> curl 'http://localhost:8089/api/v1/projects' //use the API
     $> ifconfig //get the IP of the container
     
-You can even debug via the UI by going to http://IP_OF_CONTAINER:8089 and clicking on login
+You can even debug via the UI by going to http://IP_OF_CONTAINER:8089 and clicking on login (admin:siteadmin)
