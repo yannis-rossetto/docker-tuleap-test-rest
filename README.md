@@ -34,7 +34,7 @@ Debugging failed tests
 While the tests are running, ina separate console run
 
     $> docker ps
-    $> docker commit [id of process] some_name
+    $> docker commit [id of process] some_name (e.g. toto)
     
 Then, once the tests have finished running
 
