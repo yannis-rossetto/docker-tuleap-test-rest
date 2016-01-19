@@ -18,6 +18,8 @@ RUN rpm -i http://mir01.syntis.net/epel/6/i386/epel-release-6-8.noarch.rpm && \
     httpd \
     php-password-compat \
     php-zendframework \
+    php-ZendFramework2-Loader \
+    php-ZendFramework2-Mail \
     htmlpurifier \
     jpgraph-tuleap \
     php-restler-3.0-0.7.1 \
