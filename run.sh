@@ -2,41 +2,34 @@
 
 set -e
 
+setup_apache() {
+    cp /usr/share/tuleap/src/etc/combined.conf.dist /etc/httpd/conf.d/combined.conf
+}
+
+setup_database() {
+    cat /usr/share/tuleap/src/etc/database.inc.dist |\
+    	sed \
+	     -e "s/%sys_dbname%/tuleap/" \
+	     -e "s/%sys_dbuser%/tuleapadm/" \
+	     -e "s/%sys_dbpasswd%/welcome0/" > /etc/tuleap/conf/database.inc
+}
+
+feed_database() {
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/src/db/mysql/database_structure.sql
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/src/db/mysql/database_initvalues.sql
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/plugins/tracker/db/install.sql
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/plugins/graphontrackersv5/db/install.sql
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/plugins/agiledashboard/db/install.sql
+    mysql -u tuleapadm -pwelcome0 tuleap < /usr/share/tuleap/plugins/cardwall/db/install.sql
+}
+
+setup_apache
+
 service mysqld start
+service httpd start
 
-options=`getopt -o h -l init,run -- "$@"`
+time feed_database
 
-eval set -- "$options"
+setup_database
 
-init=1
-run=1
-
-while true
-do
-    case "$1" in
-	--init)
-	    init=1
-	    run=0
-	    shift 1;;
-	--run)
-	    init=0
-	    run=1
-	    shift 1;;
-	--)
-	    shift 1; break ;;
-	*)
-	    break ;;
-    esac
-done
-
-if [ "$init" == 1 ]; then
-    make -C /tuleap TULEAP_LOCAL_INC=/etc/integration_tests.inc OUTPUT_DIR=/output BUILD_ENV=ci ci_api_test_setup api_test_bootstrap
-fi
-if [ "$run" == 1 ]; then
-    service httpd start
-    RUN_MODE=docker_api_all
-    if [ "$#" -gt 0 ]; then
-	RUN_MODE=docker_api_partial
-    fi
-    exec make -C /tuleap OUTPUT_DIR=/output BUILD_ENV=ci REST_TESTS_OPTIONS="$@" $RUN_MODE
-fi
+exec bash

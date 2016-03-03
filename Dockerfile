@@ -5,40 +5,55 @@ MAINTAINER Manuel Vacelet, manuel.vacelet@enalean.com
 
 COPY Tuleap.repo /etc/yum.repos.d/
 
-RUN rpm -i http://mir01.syntis.net/epel/6/i386/epel-release-6-8.noarch.rpm && \
-    yum -y install php \
-    php-soap \
-    php-mysql \
-    php-gd \
-    php-process \
-    php-xml \
-    php-pecl-xdebug  \
-    php-mbstring \
+RUN yum -y install epel-release && \
+    yum -y --exclude php-pecl-apcu install \
+    tuleap \
+    php-pecl-apc \
+    php-pecl-xdebug \
     mysql-server \
     httpd \
-    php-password-compat \
-    php-zendframework \
-    php-ZendFramework2-Loader \
-    php-ZendFramework2-Mail \
-    htmlpurifier \
-    jpgraph-tuleap \
     php-restler-3.0-0.7.1 \
     php-phpwiki-tuleap && \
     yum clean all
 
-RUN service mysqld start && sleep 1 && mysql -e "GRANT ALL PRIVILEGES on *.* to 'integration_test'@'localhost' identified by 'welcome0'"
+    # php-soap \
+    # php-mysql \
+    # php-gd \
+    # php-process \
+    # php-xml \
+    # php-pecl-xdebug  \
+    # php-mbstring \
+    # mysql-server \
+    # httpd \
+    # php-password-compat \
+    # php-zendframework \
+    # php-ZendFramework2-Loader \
+    # php-ZendFramework2-Mail \
+    # htmlpurifier \
+    # jpgraph-tuleap \
+    # php-restler-3.0-0.7.1 \
+    # php-phpwiki-tuleap && \
+    # yum clean all
+
+RUN yum remove -y tuleap tuleap-core-subversion tuleap-core-subversion-modperl tuleap-documentation
+
+RUN service mysqld start && \
+    sleep 1 && \
+    mysql -e "GRANT ALL PRIVILEGES on *.* to 'tuleapadm'@'localhost' identified by 'welcome0'; CREATE DATABASE tuleap DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci"
 
 RUN curl -k -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin
 
 COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
 
-COPY composer.json /tmp/run/composer.json
-RUN cd /tmp/run && php /usr/local/bin/composer.phar install
+#COPY composer.json /tmp/run/composer.json
+#RUN cd /tmp/run && php /usr/local/bin/composer.phar install
 
-ADD run.sh /run.sh
-ENTRYPOINT ["/run.sh"]
+RUN mkdir -p /etc/tuleap/conf /etc/tuleap/plugins /var/tmp/tuleap_cache/lang /var/tmp/tuleap_cache/combined /var/lib/tuleap/gitolite/admin
 
-VOLUME ["/tuleap"]
+COPY local.inc /etc/tuleap/conf/local.inc
 
-# We can use volumes when cp from volumes will be supported
-#VOLUME ["/output"]
+RUN chown -R apache:apache /etc/tuleap /var/tmp/tuleap_cache /var/lib/tuleap
+
+COPY run.sh /run.sh
+
+CMD ["/run.sh"]
