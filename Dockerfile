@@ -39,6 +39,8 @@ RUN yum remove -y tuleap tuleap-core-subversion tuleap-core-subversion-modperl t
 
 RUN yum install -y libnss-mysql
 
+RUN yum install -y postfix
+
 COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
 
 RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
