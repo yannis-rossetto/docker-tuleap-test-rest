@@ -4,8 +4,8 @@ set -ex
 
 setup_apache() {
     cp /usr/share/tuleap/src/etc/combined.conf.dist /etc/httpd/conf.d/combined.conf
-    sed -i -e "s/USER apache/USER codendiadm/" \
-	-e "s/GROUP apache/GROUP codendiadm/" /etc/httpd/conf/httpd.conf
+    sed -i -e "s/User apache/User codendiadm/" \
+	-e "s/Group apache/Group codendiadm/" /etc/httpd/conf/httpd.conf
 }
 
 setup_tuleap() {
@@ -24,6 +24,13 @@ setup_tuleap() {
 	-e "s#/var/lib/codendi#/var/lib/tuleap#g" \
 	-e "s#/usr/lib/codendi#/usr/lib/tuleap#g" \
 	-e "s#/var/tmp/codendi_cache#/var/tmp/tuleap_cache#g" \
+	-e "s#%sys_default_domain%#localhost#g" \
+	-e "s#%sys_fullname%#localhost#g" \
+	-e "s#%sys_dbauth_passwd%#welcome0#g" \
+	-e "s#%sys_org_name%#Tuleap#g" \
+	-e "s#%sys_long_org_name%#Tuleap#g" \
+	-e 's#\$sys_https_host =.*#\$sys_https_host = "";#' \
+	-e 's#\$sys_rest_api_over_http =.*#\$sys_rest_api_over_http = 1;#' \
 	> /etc/tuleap/conf/local.inc
 }
 
@@ -49,7 +56,12 @@ EOF
 
 import() {
     /usr/share/tuleap/src/utils/php-launcher.sh /usr/share/tuleap/src/utils/import_project_xml.php -u admin -i /usr/share/tuleap/tests/rest/init/base -m /usr/share/tuleap/tests/rest/init/base/users.csv
+    user_pwd=$(php /usr/share/tuleap/tools/utils/password_hasher.php -p "welcome0")
+    mysql -u tuleapadm -pwelcome0 tuleap -e "UPDATE user SET password='$user_pwd';"
 }
+
+#alias php="php -q -d date.timezone=Europe/Paris -d include_path=/usr/share/php:/usr/share/pear:/usr/share/tuleap/src/www/include:/usr/share/tuleap/src:/usr/share/jpgraph:. -d memory_limit=256M -d display_errors=On"
+
 
 setup_apache
 
@@ -61,5 +73,9 @@ time feed_database
 setup_tuleap
 
 time import
+
+cd /usr/share/tuleap/tests/rest
+# composer install
+vendor/bin/phpunit StupidTest.php
 
 exec bash

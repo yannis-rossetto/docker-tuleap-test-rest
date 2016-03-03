@@ -53,9 +53,16 @@ COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
 
 RUN touch /etc/aliases.codendi
 
-RUN mkdir -p /etc/tuleap/conf /etc/tuleap/plugins /var/tmp/tuleap_cache/lang /var/tmp/tuleap_cache/combined /var/lib/tuleap/gitolite/admin /var/log/tuleap /usr/lib/tuleap/bin /home/users /home/groups /var/lib/tuleap/ftp/pub /var/lib/tuleap/ftp/tuleap 
+RUN mkdir -p /etc/tuleap/conf /etc/tuleap/plugins /var/tmp/tuleap_cache/lang /var/tmp/tuleap_cache/combined /var/tmp/tuleap_cache/restler /var/lib/tuleap/gitolite/admin /var/log/tuleap /usr/lib/tuleap/bin /home/users /home/groups /var/lib/tuleap/ftp/pub /var/lib/tuleap/ftp/tuleap 
 
 RUN chown -R codendiadm:codendiadm /etc/tuleap /var/tmp/tuleap_cache /var/lib/tuleap /var/log/tuleap
+
+#RUN echo "transport_maps = hash:/etc/postfix/transport" >> /etc/postfix/main.cf && \
+#    echo "* error: Recipient not whitelisted." > /etc/postfix/transport && \
+#    postmap /etc/postfix/transport
+
+# For password hasher...
+RUN cd /usr/share && ln -s tuleap codendi && cd /var/tmp && ln -s tuleap_cache codendi_cache
 
 COPY run.sh /run.sh
 

@@ -6,6 +6,8 @@ How to use
 
 To execute all tests, just type:
 
+    $> docker run --rm -ti -v $PWD:/usr/share/tuleap -p 80:80 rest
+
     $> docker run --rm=true -v $PWD:/tuleap enalean/tuleap-test-rest
 
 To execute only one file (actually you can pass any PhpUnit option):
