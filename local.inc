@@ -17,6 +17,19 @@ $jpgraph_dir = '/usr/share/jpgraph';
 $sys_combined_dir = $codendi_cache_dir . '/combined';
 $sys_custom_incdir = $sys_custom_dir . '/site-content';
 $sys_custom_themeroot = $sys_custom_dir . "/themes";
+$codendi_utils_prefix         = "/usr/share/tuleap/src/utils";
+$tmp_dir = "/var/tmp";
+$codendi_log        = "/var/log/tuleap";
+$codendi_bin_prefix = "/usr/lib/tuleap/bin";
+$sys_email_admin = 'root@localhost';
+$sys_lf = "\n";
+
+//NSCD
+$unix_uid_add	= "20000";
+$unix_gid_add	= "1000";
+$sys_http_user  = "apache";
+$sys_dbauth_user   = "dbauthuser";
+$sys_dbauth_passwd = 'welcome0';
 
 $sys_name = 'Tuleap Tests';
 $sys_org_name = 'Tuleap';

@@ -37,22 +37,23 @@ RUN yum -y install epel-release && \
 
 RUN yum remove -y tuleap tuleap-core-subversion tuleap-core-subversion-modperl tuleap-documentation
 
-RUN service mysqld start && \
-    sleep 1 && \
-    mysql -e "GRANT ALL PRIVILEGES on *.* to 'tuleapadm'@'localhost' identified by 'welcome0'; CREATE DATABASE tuleap DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci"
+RUN yum install -y libnss-mysql
+
+COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
+
+RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
+    	   -e 's/^shadow\(.*\)/shadow\1 mysql/g' \
+	   -e 's/^group\(.*\)/group\1 mysql/g'  /etc/nsswitch.conf
 
 RUN curl -k -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin
 
 COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
 
-#COPY composer.json /tmp/run/composer.json
-#RUN cd /tmp/run && php /usr/local/bin/composer.phar install
+RUN touch /etc/aliases.codendi
 
-RUN mkdir -p /etc/tuleap/conf /etc/tuleap/plugins /var/tmp/tuleap_cache/lang /var/tmp/tuleap_cache/combined /var/lib/tuleap/gitolite/admin
+RUN mkdir -p /etc/tuleap/conf /etc/tuleap/plugins /var/tmp/tuleap_cache/lang /var/tmp/tuleap_cache/combined /var/lib/tuleap/gitolite/admin /var/log/tuleap /usr/lib/tuleap/bin /home/users /home/groups /var/lib/tuleap/ftp/pub /var/lib/tuleap/ftp/tuleap 
 
-COPY local.inc /etc/tuleap/conf/local.inc
-
-RUN chown -R apache:apache /etc/tuleap /var/tmp/tuleap_cache /var/lib/tuleap
+RUN chown -R codendiadm:codendiadm /etc/tuleap /var/tmp/tuleap_cache /var/lib/tuleap /var/log/tuleap
 
 COPY run.sh /run.sh
 
