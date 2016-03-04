@@ -17,6 +17,7 @@ RUN rpm -i http://mir01.syntis.net/epel/6/i386/epel-release-6-8.noarch.rpm && \
     mysql-server \
     httpd \
     php-password-compat \
+    php-paragonie-random-compat \
     php-zendframework \
     php-ZendFramework2-Loader \
     php-ZendFramework2-Mail \
