@@ -62,3 +62,5 @@ RUN yum install -y rh-php56-php-gd.x86_64 rh-php56-php-pecl-xdebug.x86_64 rh-php
 RUN yum install -y httpd24-httpd
 
 # /etc/opt/rh/rh-php56/php-fpm.d/www.conf
+ENV FPM_DAEMON=rh-php56-php-fpm
+ENV HTTPD_DAEMON=httpd24-httpd
