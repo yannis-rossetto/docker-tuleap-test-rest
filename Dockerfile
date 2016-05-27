@@ -21,25 +21,6 @@ RUN yum -y install epel-release && \
     tuleap-documentation && \
     yum clean all
 
-    # php-soap \
-    # php-mysql \
-    # php-gd \
-    # php-process \
-    # php-xml \
-    # php-pecl-xdebug  \
-    # php-mbstring \
-    # mysql-server \
-    # httpd \
-    # php-password-compat \
-    # php-zendframework \
-    # php-ZendFramework2-Loader \
-    # php-ZendFramework2-Mail \
-    # htmlpurifier \
-    # jpgraph-tuleap \
-    # php-restler-3.0-0.7.1 \
-    # php-phpwiki-tuleap && \
-    # yum clean all
-
 COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
 
 RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
@@ -66,7 +47,7 @@ RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
     cd /usr/share && ln -s tuleap codendi && \
     cd /var/tmp && ln -s tuleap_cache codendi_cache
 
-COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
-COPY run.sh /run.sh
+CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
-CMD ["/run.sh"]
+ENV MYSQL_DAEMON=mysqld
+ENV HTTPD_DAEMON=httpd
