@@ -50,3 +50,26 @@ This will take you to the terminal. You can then debug internally, if you wish
     $> ifconfig //get the IP of the container
     
 You can even debug via the UI by going to http://IP_OF_CONTAINER:8089 and clicking on login (admin:siteadmin)
+
+Experimental
+============
+
+nginx...
+
+	root   /usr/share/tuleap/src/www;
+        index  index.php;
+
+        location / {
+            index  index.php;
+        }
+
+        location /api {
+            try_files $uri $uri/ /api/index.php;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }

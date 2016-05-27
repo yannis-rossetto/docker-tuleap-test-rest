@@ -7,19 +7,30 @@ COPY Tuleap.repo /etc/yum.repos.d/
 
 RUN yum -y install epel-release centos-release-scl && \
     yum -y --exclude php-pecl-apcu install \
-    tuleap \
-    php-pecl-apc \
-    php-pecl-xdebug \
-    rh-mysql56-mysql \
-    rh-mysql56-mysql-server \
-    httpd \
-    php-restler-3.0-0.7.1 \
-    php-phpwiki-tuleap \
-    libnss-mysql && \
+        tuleap \
+        rh-mysql56-mysql \
+        rh-mysql56-mysql-server \
+        php-restler-3.0-0.7.1 \
+        php-phpwiki-tuleap \
+        libnss-mysql \
+	rh-php56-php-gd \
+	rh-php56-php-pecl \
+	rh-php56-php-pear \
+	rh-php56-php-soap \
+	rh-php56-php-mysqlnd \
+	rh-php56-php-xml \
+	rh-php56-php-mbstring \
+	rh-php56-php-cli \
+	rh-php56-php-opcache \
+	rh-php56-php-process \
+	rh-php56-php-pdo \
+	rh-php56-php-fpm \
+	httpd24-httpd && \
     yum remove -y tuleap \
-    tuleap-core-subversion \
-    tuleap-core-subversion-modperl \
-    tuleap-documentation && \
+        tuleap-core-subversion \
+        tuleap-core-subversion-modperl \
+        tuleap-documentation && \
+    yum --disablerepo=Tuleap install -y git19-git && \
     yum clean all
 
 COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
@@ -48,19 +59,8 @@ RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
     cd /usr/share && ln -s tuleap codendi && \
     cd /var/tmp && ln -s tuleap_cache codendi_cache
 
-RUN yum --disablerepo=Tuleap install -y git19-git
-
-COPY rest-tests.conf /etc/httpd/conf.d/rest-tests.conf
-
-#ENV MYSQL_DAEMON=mysqld
-
 CMD /usr/share/tuleap/tests/rest/bin/run.sh
+
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
-
-RUN yum install -y rh-php56-php-gd.x86_64 rh-php56-php-pecl-xdebug.x86_64 rh-php56-php-pear.noarch rh-php56-php-soap.x86_64 rh-php56-php-mysqlnd.x86_64 rh-php56-php-xml.x86_64 rh-php56-php-mbstring.x86_64 rh-php56-php-cli.x86_64 rh-php56-php-opcache.x86_64 rh-php56-php-process.x86_64  rh-php56-php-pdo.x86_64 rh-php56-php-fpm.x86_64
-
-RUN yum install -y httpd24-httpd
-
-# /etc/opt/rh/rh-php56/php-fpm.d/www.conf
 ENV FPM_DAEMON=rh-php56-php-fpm
 ENV HTTPD_DAEMON=httpd24-httpd
