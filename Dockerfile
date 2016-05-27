@@ -5,7 +5,7 @@ MAINTAINER Manuel Vacelet, manuel.vacelet@enalean.com
 
 COPY Tuleap.repo /etc/yum.repos.d/
 
-RUN yum -y install epel-release && \
+RUN yum -y install epel-release centos-release-scl && \
     yum -y --exclude php-pecl-apcu install \
     tuleap \
     php-pecl-apc \
@@ -19,6 +19,7 @@ RUN yum -y install epel-release && \
     tuleap-core-subversion \
     tuleap-core-subversion-modperl \
     tuleap-documentation && \
+    yum --disablerepo=Tuleap install -y git19-git && \
     yum clean all
 
 COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
