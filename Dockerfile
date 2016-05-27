@@ -58,3 +58,7 @@ CMD /usr/share/tuleap/tests/rest/bin/run.sh
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
 
 RUN yum install -y rh-php56-php-gd.x86_64 rh-php56-php-pecl-xdebug.x86_64 rh-php56-php-pear.noarch rh-php56-php-soap.x86_64 rh-php56-php-mysqlnd.x86_64 rh-php56-php-xml.x86_64 rh-php56-php-mbstring.x86_64 rh-php56-php-cli.x86_64 rh-php56-php-opcache.x86_64 rh-php56-php-process.x86_64  rh-php56-php-pdo.x86_64 rh-php56-php-fpm.x86_64
+
+RUN yum install -y httpd24-httpd
+
+# /etc/opt/rh/rh-php56/php-fpm.d/www.conf
