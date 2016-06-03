@@ -54,7 +54,10 @@ You can even debug via the UI by going to http://IP_OF_CONTAINER:8089 and clicki
 Experimental
 ============
 
-nginx...
+nginx
+
+yum install -y rh-nginx18-nginx
+/etc/opt/rh/rh-nginx18/nginx/nginx.conf
 
 	root   /usr/share/tuleap/src/www;
         index  index.php;
@@ -64,7 +67,7 @@ nginx...
         }
 
         location /api {
-            try_files $uri $uri/ /api/index.php;
+            try_files $uri $uri/ /api/index.php?$args;
         }
 
         location ~ \.php$ {
@@ -73,3 +76,18 @@ nginx...
             fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
             include        fastcgi_params;
         }
+
+There seems to be an issue with artifact tests & location
+Reproduce with:
+vendor/bin/phpunit -d include_path=/usr/share/tuleap/src/www/include:/usr/share/tuleap/src -d date.timezone=Europe/Paris --filter ArtifactsTest::testPostArtifact  /usr/share/tuleap/tests/rest/ArtifactsTest.php
+
+The post is sent with a Location an guzzle attempt to follow the location
+because a 302 header is sent.
+Several things here:
+- according to http_response_code(), this a 302 header that is prepared by php
+  as soon as the location is set by $this->sendLocationHeader(...); in
+  ArtifactsResource::post but only nginx properly transmit the set header to
+  the client
+- For some reasons guzzle doesn't respect the configuration I try to set:
+  http://guzzle3.readthedocs.io/http-client/http-redirects.html
+  (but the real problem is the 302 as it should really be 200);
