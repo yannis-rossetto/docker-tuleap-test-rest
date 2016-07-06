@@ -25,7 +25,8 @@ RUN yum -y install epel-release centos-release-scl && \
 	rh-php56-php-process \
 	rh-php56-php-pdo \
 	rh-php56-php-fpm \
-	httpd24-httpd && \
+	httpd24-httpd \
+	java-1.8.0-openjdk && \
     yum remove -y tuleap \
         tuleap-core-subversion \
         tuleap-core-subversion-modperl \
