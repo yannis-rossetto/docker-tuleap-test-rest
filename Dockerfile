@@ -25,7 +25,7 @@ RUN yum -y install epel-release centos-release-scl && \
 	rh-php56-php-process \
 	rh-php56-php-pdo \
 	rh-php56-php-fpm \
-	httpd24-httpd \
+	rh-nginx18-nginx \
 	java-1.8.0-openjdk && \
     yum remove -y tuleap \
         tuleap-core-subversion \
@@ -64,4 +64,4 @@ CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
 ENV FPM_DAEMON=rh-php56-php-fpm
-ENV HTTPD_DAEMON=httpd24-httpd
+ENV HTTPD_DAEMON=rh-nginx18-nginx
