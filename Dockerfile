@@ -18,9 +18,9 @@ RUN yum -y install epel-release centos-release-scl && \
     yum remove -y tuleap \
     tuleap-core-subversion \
     tuleap-core-subversion-modperl \
-    tuleap-documentation \
+    tuleap-documentation && \
+    yum --disablerepo=Tuleap install -y git19-git \
     java-1.8.0-openjdk && \
-    yum --disablerepo=Tuleap install -y git19-git && \
     yum clean all
 
 COPY libnss-mysql-root.cfg libnss-mysql.cfg /etc/
