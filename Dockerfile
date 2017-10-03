@@ -62,6 +62,10 @@ RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
     cd /usr/share && ln -s tuleap codendi && \
     cd /var/tmp && ln -s tuleap_cache codendi_cache
 
+COPY mysql-server.cnf /etc/opt/rh/rh-mysql56/my.cnf.d/mysql-server.cnf
+
+RUN service rh-mysql56-mysqld start &&  service rh-mysql56-mysqld stop
+
 CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
