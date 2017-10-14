@@ -54,6 +54,7 @@ RUN sed -i -e 's/^passwd\(.*\)/passwd\1 mysql/g' \
     /home/users \
     /home/groups \
     /var/lib/tuleap/ftp/pub \
+    /var/lib/tuleap/ftp/incoming \
     /var/lib/tuleap/ftp/tuleap && \
     chown -R codendiadm:codendiadm /etc/tuleap \
     /var/tmp/tuleap_cache \
