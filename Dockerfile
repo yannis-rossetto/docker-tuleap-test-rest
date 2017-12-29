@@ -9,6 +9,7 @@ RUN yum -y install epel-release centos-release-scl && \
         rh-mysql56-mysql-server \
         php-restler-3.0-0.7.1 \
         php-phpwiki-tuleap \
+        php-ZendFramework2-Mail \
         libnss-mysql \
 	rh-php56-php-gd \
 	rh-php56-php-pecl \
