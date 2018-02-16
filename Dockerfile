@@ -28,6 +28,7 @@ RUN yum -y install epel-release centos-release-scl && \
         rh-php70-php-cli \
         rh-php70-php-pdo \
         rh-php70-php-xml \
+        rh-php70-php-mbstring \
         rh-php70-php-mysqlnd \
 	&& \
     yum remove -y tuleap \
