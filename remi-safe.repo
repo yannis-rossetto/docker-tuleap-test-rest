@@ -1,0 +1,6 @@
+[remi-safe]
+name=Safe Remi's RPM repository for Enterprise Linux $releasever - $basearch
+mirrorlist=http://cdn.remirepo.net/enterprise/$releasever/safe/mirror
+enabled=1
+gpgcheck=1
+gpgkey=http://rpms.remirepo.net/RPM-GPG-KEY-remi
