@@ -52,3 +52,4 @@ CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
 ENV FPM_DAEMON=rh-php56-php-fpm
+ENV PHP_CLI=/opt/remi/php72/root/usr/bin/php
