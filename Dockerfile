@@ -8,25 +8,23 @@ RUN yum -y install epel-release centos-release-scl && \
         rh-mysql56-mysql \
         rh-mysql56-mysql-server \
         php-ZendFramework2-Mail \
-        rh-php56-php-gd \
-        rh-php56-php-pecl \
-        rh-php56-php-pear \
-        rh-php56-php-soap \
-        rh-php56-php-mysqlnd \
-        rh-php56-php-xml \
-        rh-php56-php-mbstring \
-        rh-php56-php-cli \
-        rh-php56-php-opcache \
-        rh-php56-php-process \
-        rh-php56-php-pdo \
-        rh-php56-php-fpm \
-        java-1.8.0-openjdk \
+        php72-php-gd \
+        php72-php-pecl \
+        php72-php-pear \
+        php72-php-soap \
+        php72-php-mysqlnd \
+        php72-php-xml \
+        php72-php-mbstring \
+        php72-php-opcache \
+        php72-php-fpm \
         php72-php-cli \
         php72-php-pdo \
         php72-php-xml \
         php72-php-mbstring \
         php72-php-mysqlnd \
         php72-php-process \
+         php72-php-pecl-zip \
+        java-1.8.0-openjdk \
         rh-git29-git \
         sudo \
     && \
@@ -51,5 +49,5 @@ COPY mysql-server.cnf /etc/opt/rh/rh-mysql56/my.cnf.d/mysql-server.cnf
 CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
 ENV MYSQL_DAEMON=rh-mysql56-mysqld
-ENV FPM_DAEMON=rh-php56-php-fpm
+ENV FPM_DAEMON=php72-php-fpm
 ENV PHP_CLI=/opt/remi/php72/root/usr/bin/php
