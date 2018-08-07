@@ -40,6 +40,7 @@ RUN yum -y install epel-release centos-release-scl && \
         php72-php-mbstring \
         php72-php-mysqlnd \
         php72-php-process \
+        php72-php-pecl-zip \
         rh-git29-git \
         sudo \
     && \
