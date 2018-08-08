@@ -21,9 +21,22 @@ RUN yum -y install epel-release centos-release-scl && \
         php72-php-pdo \
         php72-php-xml \
         php72-php-mbstring \
-        php72-php-mysqlnd \
         php72-php-process \
-         php72-php-pecl-zip \
+        php72-php-pecl-zip \
+        php56-php-gd \
+        php56-php-pecl \
+        php56-php-pear \
+        php56-php-soap \
+        php56-php-mysqlnd \
+        php56-php-xml \
+        php56-php-mbstring \
+        php56-php-opcache \
+        php56-php-cli \
+        php56-php-pdo \
+        php56-php-xml \
+        php56-php-mbstring \
+        php56-php-process \
+        php56-php-pecl-zip \
         java-1.8.0-openjdk \
         rh-git29-git \
         sudo \
