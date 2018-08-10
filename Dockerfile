@@ -16,6 +16,7 @@ RUN yum -y install epel-release centos-release-scl && \
         rh-php56-php-xml \
         rh-php56-php-mbstring \
         rh-php56-php-cli \
+        rh-php56-php-intl \
         rh-php56-php-opcache \
         rh-php56-php-process \
         rh-php56-php-pdo \
