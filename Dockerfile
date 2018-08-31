@@ -5,9 +5,8 @@ COPY *.repo /etc/yum.repos.d/
 RUN yum -y install epel-release centos-release-scl && \
     yum -y install \
         tuleap \
-        rh-mysql56-mysql \
-        rh-mysql56-mysql-server \
-        php-ZendFramework2-Mail \
+        rh-mysql57-mysql \
+        rh-mysql57-mysql-server \
         php72-php-gd \
         php72-php-pecl \
         php72-php-pear \
@@ -23,20 +22,6 @@ RUN yum -y install epel-release centos-release-scl && \
         php72-php-mbstring \
         php72-php-process \
         php72-php-pecl-zip \
-        php56-php-gd \
-        php56-php-pecl \
-        php56-php-pear \
-        php56-php-soap \
-        php56-php-mysqlnd \
-        php56-php-xml \
-        php56-php-mbstring \
-        php56-php-opcache \
-        php56-php-cli \
-        php56-php-pdo \
-        php56-php-xml \
-        php56-php-mbstring \
-        php56-php-process \
-        php56-php-pecl-zip \
         java-1.8.0-openjdk \
         rh-git29-git \
         sudo \
@@ -57,10 +42,10 @@ RUN curl -k -sS https://getcomposer.org/installer | /opt/remi/php72/root/usr/bin
         /var/lib/tuleap/ftp/tuleap && \
     chown -R codendiadm:codendiadm /etc/tuleap /var/lib/tuleap /var/log/tuleap
 
-COPY mysql-server.cnf /etc/opt/rh/rh-mysql56/my.cnf.d/mysql-server.cnf
+COPY mysql-server.cnf /etc/opt/rh/rh-mysql57/my.cnf.d/mysql-server.cnf
 
 CMD /usr/share/tuleap/tests/rest/bin/run.sh
 
-ENV MYSQL_DAEMON=rh-mysql56-mysqld
+ENV MYSQL_DAEMON=rh-mysql57-mysqld
 ENV FPM_DAEMON=php72-php-fpm
 ENV PHP_CLI=/opt/remi/php72/root/usr/bin/php

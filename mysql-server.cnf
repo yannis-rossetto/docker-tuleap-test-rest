@@ -3,24 +3,25 @@
 #
 
 #[mysqld]
-#datadir=/var/opt/rh/rh-mysql56/lib/mysql
+#datadir=/var/opt/rh/rh-mysql57/lib/mysql
 #socket=/var/lib/mysql/mysql.sock
-#log-error=/var/opt/rh/rh-mysql56/log/mysql/mysqld.log
-#pid-file=/var/run/rh-mysql56-mysqld/mysqld.pid
+#log-error=/var/opt/rh/rh-mysql57/log/mysql/mysqld.log
+#pid-file=/var/run/rh-mysql57-mysqld/mysqld.pid
 
 [mysqld]
 #
 # * Basic Settings
 #
 user                                = mysql
-pid-file                            = /var/run/rh-mysql56-mysqld/mysqld.pid
+pid-file                            = /var/run/rh-mysql57-mysqld/mysqld.pid
 socket                              = /var/lib/mysql/mysql.sock
 port                                = 3306
 #basedir                             = /usr
-datadir                             = /var/opt/rh/rh-mysql56/lib/mysql
+datadir                             = /var/opt/rh/rh-mysql57/lib/mysql/
 tmpdir                              = /tmp
 skip-external-locking
 bind-address                        = 0.0.0.0
+sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
 
 #
 # * Fine Tuning
@@ -29,14 +30,12 @@ key_buffer_size                     = 800M  # default: 16M
 max_allowed_packet                  = 512M  # default: 16M
 thread_stack                        = 256K  # default: 192K
 thread_cache_size                   = 256   # default: 8
-thread_concurrency                  = 16
 skip_name_resolve
 
-innodb_data_home_dir                = /var/opt/rh/rh-mysql56/lib/mysql
+innodb_data_home_dir                = /var/opt/rh/rh-mysql57/lib/mysql/
 innodb_data_file_path               = ibdata1:500M;ibdata2:500M:autoextend
 innodb_buffer_pool_size             = 1024M
-innodb_additional_mem_pool_size     = 8M
-innodb_log_group_home_dir           = /var/opt/rh/rh-mysql56/lib/mysql
+innodb_log_group_home_dir           = /var/opt/rh/rh-mysql57/lib/mysql/
 innodb_log_files_in_group           = 2
 innodb_log_file_size                = 128M
 innodb_log_buffer_size              = 16M
@@ -44,7 +43,6 @@ innodb_flush_log_at_trx_commit      = 2
 innodb_support_xa                   = 1
 innodb_lock_wait_timeout            = 30
 innodb_flush_method                 = O_DIRECT
-innodb_thread_concurrency           = 0
 innodb_table_locks                  = 0
 innodb_doublewrite                  = 0
 #innodb_open_files                   = 4096
@@ -71,7 +69,7 @@ query_cache_size                    = 0  # default: 16M
 # * Logging
 #
 general_log                         = 0
-general_log_file                    = /var/opt/rh/rh-mysql56/log/mysql/mysql-general.log
+general_log_file                    = /var/opt/rh/rh-mysql57/log/mysql/mysql-general.log
 slow_query_log                      = 1
-slow_query_log_file                 = /var/opt/rh/rh-mysql56/log/mysql/mysql-slow.log
+slow_query_log_file                 = /var/opt/rh/rh-mysql57/log/mysql/mysql-slow.log
 long_query_time                     = 1
