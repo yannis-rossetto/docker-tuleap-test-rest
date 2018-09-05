@@ -5,6 +5,7 @@ COPY *.repo /etc/yum.repos.d/
 RUN yum -y install epel-release centos-release-scl && \
     yum -y install \
         tuleap \
+        tuleap-plugin-git-gitolite3 \
         rh-mysql57-mysql \
         rh-mysql57-mysql-server \
         php56-php-gd \
@@ -32,6 +33,7 @@ RUN yum -y install epel-release centos-release-scl && \
         sudo \
     && \
     yum remove -y tuleap \
+        tuleap-plugin-git-gitolite3 \
         tuleap-core-subversion \
         tuleap-core-subversion-modperl \
         tuleap-documentation && \
@@ -40,12 +42,11 @@ RUN yum -y install epel-release centos-release-scl && \
 RUN curl -k -sS https://getcomposer.org/installer | /opt/remi/php72/root/usr/bin/php && mv composer.phar /usr/local/bin && \
     mkdir -p /etc/tuleap/conf \
         /etc/tuleap/plugins \
-        /var/lib/tuleap/gitolite/admin \
         /var/log/tuleap \
         /usr/lib/tuleap/bin \
         /var/lib/tuleap/ftp/incoming \
         /var/lib/tuleap/ftp/tuleap && \
-    chown -R codendiadm:codendiadm /etc/tuleap /var/lib/tuleap /var/log/tuleap
+    chown -R codendiadm:codendiadm /etc/tuleap /var/lib/tuleap/ftp /var/log/tuleap
 
 COPY mysql-server.cnf /etc/opt/rh/rh-mysql57/my.cnf.d/mysql-server.cnf
 
